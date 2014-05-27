@@ -47,7 +47,7 @@ setup(
     ],
     author='Virgil Dupras',
     author_email='virgil.dupras@savoirfairelinux.com',
-    url='http://www.savoirfairelinux.com',
+    url='https://github.com/savoirfairelinux/flake8-copyright',
     keywords='pep8 flake8 copyright',
     py_modules=['flake8_copyright'],
     install_requires=[
