@@ -48,7 +48,7 @@ class CopyrightChecker(object):
         )
         parser.config_options.append('copyright-author')
         parser.add_option(
-            '--copyright-regexp', default=r"Copyright\s+(\(C\)\s+)?\d{4}\s+%(author)s", action='store',
+            '--copyright-regexp', default=r"Copyright\s+(\(C\)\s+)?\d{4}([-,]\d{4})*\s+%(author)s", action='store',
             help="Changes the copyright regular expression to look for."
         )
         parser.config_options.append('copyright-regexp')

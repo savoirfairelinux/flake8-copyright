@@ -32,5 +32,5 @@ copyright-author
 
 copyright-regexp
     If you're not happy with the regexp that is ran to look for copyright notices, you can change it
-    with this option. Default: ``Copyright\s+(\(C\)\s+)?\d{4}\s+%(author)s``. ``%(author)s`` is
+    with this option. Default: ``Copyright\s+(\(C\)\s+)?\d{4}([-,]\d{4})*\s+%(author)s``. ``%(author)s`` is
     replaced by the contents of ``copyright-author``.
