@@ -71,4 +71,4 @@ class CopyrightChecker(object):
         author = self.copyright_author if self.copyright_author else r".*"
         re_copyright = re.compile(self.copyright_regexp % {'author': author}, re.IGNORECASE)
         if not re_copyright.search(top_of_file):
-            yield 0, 0, "C801 Copyright notice not present.", type(self)
+            yield 1, 1, "C801 Copyright notice not present.", type(self)
