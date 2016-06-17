@@ -68,6 +68,10 @@ class CopyrightChecker(object):
         if len(top_of_file) < self.copyright_min_file_size:
             return
 
+        # Ignore files that are completely empty, there's nothing to copyright
+        if len(top_of_file) < toread and top_of_file.strip() == '':
+            return
+
         author = self.copyright_author if self.copyright_author else r".*"
         re_copyright = re.compile(self.copyright_regexp % {'author': author}, re.IGNORECASE)
         if not re_copyright.search(top_of_file):
