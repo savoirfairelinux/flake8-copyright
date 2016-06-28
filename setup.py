@@ -1,6 +1,6 @@
 # -=- encoding: utf-8 -=-
 #
-# Copyright (C) 2014 Savoir-faire Linux Inc.
+# Copyright (C) 2016 Savoir-faire Linux Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

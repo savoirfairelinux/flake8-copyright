@@ -1,6 +1,6 @@
 # -=- encoding: utf-8 -=-
 #
-# Copyright (C) 2014 Savoir-faire Linux Inc.
+# Copyright (C) 2016 Savoir-faire Linux Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,8 +17,25 @@
 #
 
 import re
+import optparse
 
-__version__ = '0.1.1'
+__version__ = '0.2.0'
+
+
+# Temporary shim for flake8 2.x --> 3.x transition
+# http://flake8.pycqa.org/en/latest/plugin-development/cross-compatibility.html#option-handling-on-flake8-2-and-3
+def register_opt(parser, *args, **kwargs):
+    try:
+        # Flake8 3.x registration
+        parser.add_option(*args, **kwargs)
+    except (optparse.OptionError, TypeError):
+        # Flake8 2.x registration
+        parse_from_config = kwargs.pop('parse_from_config', False)
+        kwargs.pop('comma_separated_list', False)
+        kwargs.pop('normalize_paths', False)
+        parser.add_option(*args, **kwargs)
+        if parse_from_config:
+            parser.config_options.append(args[-1].lstrip('-'))
 
 
 class CopyrightChecker(object):
@@ -32,26 +49,27 @@ class CopyrightChecker(object):
 
     @classmethod
     def add_options(cls, parser):
-        parser.add_option(
-            '--copyright-check', action='store_true',
+        register_opt(
+            parser, '--copyright-check', action='store_true', parse_from_config=True,
             help="Checks for copyright notices in every file."
         )
-        parser.config_options.append('copyright-check')
-        parser.add_option(
-            '--copyright-min-file-size', default=0, action='store', type='int',
+        register_opt(
+            parser, '--copyright-min-file-size', default=0, action='store', type='int',
+            parse_from_config=True,
             help="Minimum number of characters in a file before requiring a copyright notice."
         )
-        parser.config_options.append('copyright-min-file-size')
-        parser.add_option(
-            '--copyright-author', default='', action='store',
+        register_opt(
+            parser, '--copyright-author', default='', action='store',
+            parse_from_config=True,
             help="Checks for a specific author in the copyright notice."
         )
-        parser.config_options.append('copyright-author')
-        parser.add_option(
-            '--copyright-regexp', default=r"Copyright\s+(\(C\)\s+)?\d{4}([-,]\d{4})*\s+%(author)s", action='store',
+        register_opt(
+            parser, '--copyright-regexp',
+            default=r"Copyright\s+(\(C\)\s+)?\d{4}([-,]\d{4})*\s+%(author)s",
+            action='store',
+            parse_from_config=True,
             help="Changes the copyright regular expression to look for."
         )
-        parser.config_options.append('copyright-regexp')
 
     @classmethod
     def parse_options(cls, options):
