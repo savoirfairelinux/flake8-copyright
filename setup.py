@@ -54,6 +54,6 @@ setup(
         'setuptools',
     ],
     entry_points={
-        'flake8.extension': ['flake8_copyright = flake8_copyright:CopyrightChecker'],
+        'flake8.extension': ['C801 = flake8_copyright:CopyrightChecker'],
     },
 )
