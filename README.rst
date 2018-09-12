@@ -19,6 +19,9 @@ Install with pip::
 Then, activate copyright checks in your flake8 configuration with::
 
     copyright-check = True
+    # C errors are not selected by default, so add them to your selection
+    select = E,F,W,C
+
 
 Further options
 ---------------
