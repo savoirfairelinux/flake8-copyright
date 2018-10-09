@@ -35,6 +35,7 @@ def get_long_description():
             descr.append(f.read())
     return '\n\n'.join(descr)
 
+
 setup(
     name='flake8-copyright',
     version=get_version(),
