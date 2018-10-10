@@ -19,7 +19,7 @@
 import re
 import optparse
 
-__version__ = '0.2.0'
+__version__ = '0.2.1'
 
 
 # Temporary shim for flake8 2.x --> 3.x transition
