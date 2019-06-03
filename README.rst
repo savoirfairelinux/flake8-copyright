@@ -16,19 +16,13 @@ Install with pip::
 
     pip install flake8-copyright
 
-Then, activate copyright checks in your flake8 configuration with::
-
-    copyright-check = True
-    # C errors are not selected by default, so add them to your selection
-    select = E,F,W,C
-
 
 Further options
 ---------------
 
 copyright-min-file-size
     Minimum number of characters in a file before requiring a copyright notice. This is to avoid
-    forcing yourself to add copyright notices to very small or empty files. Default: ``0``.
+    forcing yourself to add copyright notices to very small or empty files. Default: ``3``.
 
 copyright-author
     Checks for a specific author in the copyright notice.

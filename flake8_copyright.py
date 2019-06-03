@@ -14,28 +14,10 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
 
 import re
-import optparse
 
-__version__ = '0.2.2'
-
-
-# Temporary shim for flake8 2.x --> 3.x transition
-# http://flake8.pycqa.org/en/latest/plugin-development/cross-compatibility.html#option-handling-on-flake8-2-and-3
-def register_opt(parser, *args, **kwargs):
-    try:
-        # Flake8 3.x registration
-        parser.add_option(*args, **kwargs)
-    except (optparse.OptionError, TypeError):
-        # Flake8 2.x registration
-        parse_from_config = kwargs.pop('parse_from_config', False)
-        kwargs.pop('comma_separated_list', False)
-        kwargs.pop('normalize_paths', False)
-        parser.add_option(*args, **kwargs)
-        if parse_from_config:
-            parser.config_options.append(args[-1].lstrip('-'))
+__version__ = '0.3.0'
 
 
 class CopyrightChecker(object):
@@ -49,22 +31,18 @@ class CopyrightChecker(object):
 
     @classmethod
     def add_options(cls, parser):
-        register_opt(
-            parser, '--copyright-check', action='store_true', parse_from_config=True,
-            help="Checks for copyright notices in every file."
-        )
-        register_opt(
-            parser, '--copyright-min-file-size', default=0, action='store', type='int',
+        parser.add_option(
+            '--copyright-min-file-size', default=3, action='store', type='int',
             parse_from_config=True,
             help="Minimum number of characters in a file before requiring a copyright notice."
         )
-        register_opt(
-            parser, '--copyright-author', default='', action='store',
+        parser.add_option(
+            '--copyright-author', default='', action='store',
             parse_from_config=True,
             help="Checks for a specific author in the copyright notice."
         )
-        register_opt(
-            parser, '--copyright-regexp',
+        parser.add_option(
+            '--copyright-regexp',
             default=r"Copyright\s+(\(C\)\s+)?\d{4}([-,]\d{4})*\s+%(author)s",
             action='store',
             parse_from_config=True,
@@ -73,14 +51,11 @@ class CopyrightChecker(object):
 
     @classmethod
     def parse_options(cls, options):
-        cls.copyright_check = options.copyright_check
         cls.copyright_min_file_size = options.copyright_min_file_size
         cls.copyright_author = options.copyright_author
         cls.copyright_regexp = options.copyright_regexp
 
     def run(self):
-        if not self.copyright_check:
-            return
         toread = max(1024, self.copyright_min_file_size)
         top_of_file = open(self.filename).read(toread)
         if len(top_of_file) < self.copyright_min_file_size:
@@ -89,4 +64,4 @@ class CopyrightChecker(object):
         author = self.copyright_author if self.copyright_author else r".*"
         re_copyright = re.compile(self.copyright_regexp % {'author': author}, re.IGNORECASE)
         if not re_copyright.search(top_of_file):
-            yield 1, 1, "C801 Copyright notice not present.", type(self)
+            yield 1, 1, "C801 Copyright notice missing or malformed.", type(self)
