@@ -82,7 +82,7 @@ class CopyrightChecker(object):
         if not self.copyright_check:
             return
         toread = max(1024, self.copyright_min_file_size)
-        top_of_file = open(self.filename).read(toread)
+        top_of_file = open(self.filename, encoding="utf8").read(toread)
         if len(top_of_file) < self.copyright_min_file_size:
             return
 
