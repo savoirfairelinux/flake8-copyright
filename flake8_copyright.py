@@ -38,7 +38,7 @@ class CopyrightChecker(object):
             help="Checks for copyright notices in every file."
         )
         parser.add_option(
-            '--copyright-min-file-size', default=0, action='store', type='int',
+            '--copyright-min-file-size', default=0, action='store', type=int,
             parse_from_config=True,
             help="Minimum number of characters in a file before requiring a copyright notice."
         )
