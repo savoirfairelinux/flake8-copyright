@@ -30,6 +30,10 @@ copyright-min-file-size
     Minimum number of characters in a file before requiring a copyright notice. This is to avoid
     forcing yourself to add copyright notices to very small or empty files. Default: ``0``.
 
+copyright-max-read-size
+    Maximum number of characters to read from a file when looking for the copyright notice. This
+    is necessary if a large docstring is at the top of the file, for example. Default: ``1024``
+
 copyright-author
     Checks for a specific author in the copyright notice.
 

@@ -42,6 +42,11 @@ class CopyrightChecker(object):
             help="Minimum number of characters in a file before requiring a copyright notice."
         )
         parser.add_option(
+            '--copyright-max-read-size', default=1024, action='store', type=int,
+            parse_from_config=True,
+            help="Maximum number of characters to read when looking for the copyright notice."
+        )
+        parser.add_option(
             '--copyright-author', default='', action='store',
             parse_from_config=True,
             help="Checks for a specific author in the copyright notice."
@@ -58,14 +63,15 @@ class CopyrightChecker(object):
     def parse_options(cls, options):
         cls.copyright_check = options.copyright_check
         cls.copyright_min_file_size = options.copyright_min_file_size
+        cls.copyright_max_read_size = options.copyright_max_read_size
         cls.copyright_author = options.copyright_author
         cls.copyright_regexp = options.copyright_regexp
 
     def run(self):
         if not self.copyright_check:
             return
-        toread = max(1024, self.copyright_min_file_size)
-        top_of_file = open(self.filename).read(toread)
+
+        top_of_file = open(self.filename).read(self.copyright_max_read_size)
         if len(top_of_file) < self.copyright_min_file_size:
             return
 
